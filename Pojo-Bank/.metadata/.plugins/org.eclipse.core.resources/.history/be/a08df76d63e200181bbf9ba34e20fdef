@@ -1,0 +1,8 @@
+package com.revature.main;
+
+public class MyException {
+	public MyException() {
+		super();
+	}
+	
+}

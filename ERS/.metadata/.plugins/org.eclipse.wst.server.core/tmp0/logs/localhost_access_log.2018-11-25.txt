@@ -1,0 +1,10 @@
+127.0.0.1 - - [25/Nov/2018:16:55:14 -0600] "GET / HTTP/1.1" 404 994
+127.0.0.1 - - [25/Nov/2018:16:55:14 -0600] "GET /ReimbursementApp/index.html HTTP/1.1" 304 -
+127.0.0.1 - - [25/Nov/2018:16:55:14 -0600] "GET /ReimbursementApp/home.view HTTP/1.1" 404 1064
+127.0.0.1 - - [25/Nov/2018:16:55:16 -0600] "GET /ReimbursementApp/login.view HTTP/1.1" 404 1064
+::1 - - [25/Nov/2018:16:55:23 -0600] "GET /Project1/index.html HTTP/1.1" 404 1032
+::1 - - [25/Nov/2018:16:55:28 -0600] "GET /Project1/index.html HTTP/1.1" 404 1032
+::1 - - [25/Nov/2018:16:55:28 -0600] "GET /favicon.ico HTTP/1.1" 404 1016
+::1 - - [25/Nov/2018:16:55:40 -0600] "GET /ReimbursementApp/index.html HTTP/1.1" 200 1913
+::1 - - [25/Nov/2018:16:55:40 -0600] "GET /ReimbursementApp/reimbursement.js HTTP/1.1" 200 2584
+::1 - - [25/Nov/2018:16:55:41 -0600] "GET /ReimbursementApp/home.view HTTP/1.1" 404 1064

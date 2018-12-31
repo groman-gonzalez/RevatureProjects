@@ -1,0 +1,8 @@
+package com.revature.dao;
+
+import com.revature.pojos.Account;
+import com.revature.util.ConnectionFactory;
+
+public class AccDao {
+
+}

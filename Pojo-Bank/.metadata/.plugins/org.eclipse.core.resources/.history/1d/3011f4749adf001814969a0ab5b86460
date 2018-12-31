@@ -1,0 +1,44 @@
+package com.revature.pojos;
+
+public class Account {
+	private int accID;
+	private String accType;
+	private int ownerID;
+	private int balance;
+	
+	public Account() {}
+	public Account(int accID, String accType, int ownerID, int balance) {
+		super();
+		this.accID = accID;
+		this.accType = accType;
+		this.ownerID = ownerID;
+		this.balance = balance;
+		
+	}
+	public int getAccID() {
+		return accID;
+	}
+	public void setAccID(int accID) {
+		this.accID = accID;
+	}
+	public String getAccType() {
+		return accType;
+	}
+	public void setAccType(String accType) {
+		this.accType = accType;
+	}
+	public int getOwnerID() {
+		return ownerID;
+	}
+	public void setOwnerID(int ownerID) {
+		this.ownerID = ownerID;
+	}
+	public int getBalance() {
+		return balance;
+	}
+	public void setBalance(int balance) {
+		this.balance = balance;
+	}
+	
+
+}

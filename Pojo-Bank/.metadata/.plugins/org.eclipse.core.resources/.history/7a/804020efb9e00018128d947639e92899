@@ -1,0 +1,82 @@
+package com.revature.main;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+import com.revature.pojos.User;
+import com.revature.service.AccService;
+import com.revature.util.ConnectionFactory;
+
+public class BankApp {
+	static Scanner read = new Scanner(System.in);
+	static String firstName;
+	static String lastName;
+	static String usrName;
+	static String pwd;
+
+	static AccService accSer = new AccService();
+
+	public static void main(String[] args) {
+		run();
+	}
+
+	static void run() {
+		System.out.println("Hello! Welcome to the New Lehman Brothers!" + "What would you like to do?"
+				+ "\n 1. Existing Customer" + "\n 2. New Customer");
+		Scanner scan = new Scanner(System.in);
+		int option = 0;
+		try {
+			option = scan.nextInt();
+			switch (option) {
+			case 1:
+				// logIn();
+				break;
+			case 2:
+				makeNewUser();
+				break;
+			default:
+				System.out.println("Please enter a number from the menu");
+				run();
+				break;
+			}
+			read.close();
+		} catch (InputMismatchException e) {
+			System.out.println("Sorry please enter a number");
+			run();
+		}
+	}
+
+	static int logIn(User usr) {
+		try {
+			Connection conn = ConnectionFactory.getInstance().getConnection();
+		
+		String sql = "SELECT * FROM USER_TB WHERE USERNAME = ? AND PASS_WORD = ?";
+		
+		CallableStatement cs = conn.prepareCall(sql);
+		}catch(SQLException e) {
+			e.printStackTrace();//change to a log
+		}
+		
+		return 0;
+	}
+
+	private static void makeNewUser() {
+		System.out.println("Please enter your First name: ");
+		firstName = read.nextLine();
+		System.out.println("Enter your Last name: ");
+		lastName = read.nextLine();
+		System.out.println("Make a username: ");
+		usrName = read.nextLine();
+		System.out.println("Enter a password: ");
+		pwd = read.nextLine();
+
+		if (pwd == null) {
+			System.out.println("Please enter a password");
+		} else {
+			// make new user
+		}
+	}
+}

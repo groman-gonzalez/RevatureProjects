@@ -1,0 +1,60 @@
+package com.revature.dao;
+
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.revature.pojos.Account;
+import com.revature.util.ConnectionFactory;
+
+public class TypeDao implements DAO <AccountType, Integer>{
+	
+	@Override
+	public List<AccountType> findAll() {
+		List<Account> account = new ArrayList<Account>();
+		
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+			String query = "SELECT BALANCE FROM ACCOUNT_TB WHERE USERID = ?";
+			//STATEMENT INTERFACE - implementation exposed via connection
+			Statement statement = conn.createStatement();
+			
+			//ResultSet Interface - represents the result set of a DB query
+			ResultSet rs = statement.executeQuery(query);
+
+			//returns false when there are no more rows in result set
+			while(rs.next()) {
+				Account temp = new Account();
+				temp.setAccID(rs.getInt(1));
+				temp.setAccType(rs.getInt(2));
+				account.add(temp);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return account;
+	}
+
+
+	@Override
+	public AccountType findById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccountType save(AccountType obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccountType update(AccountType obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}

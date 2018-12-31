@@ -1,0 +1,4 @@
+driver=oracle.jdbc.driver.OracleDriver
+url=arn:aws:rds:us-east-1:755566720162:db:oct22-java-demo
+usr=oct22_java_demo
+pwd=3d8pmfkv

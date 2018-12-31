@@ -1,0 +1,78 @@
+package com.revature.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.revature.pojos.AccountType;
+import com.revature.util.ConnectionFactory;
+
+public class TypeDao implements DAO <AccountType, Integer>{
+	
+	@Override
+	public List<AccountType> findAll() {
+		List<AccountType> type = new ArrayList<AccountType>();
+		
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+			String query = "SELECT BALANCE FROM ACCOUNT_TB WHERE USERID = ?";
+			Statement statement = conn.createStatement();
+			ResultSet rs = statement.executeQuery(query);
+			while(rs.next()) {
+				
+				AccountType temp = new AccountType();
+				temp.setTypeID(rs.getInt(1));
+				temp.setType(rs.getString(2));
+				type.add(temp);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return type;
+	}
+
+
+	@Override
+	public AccountType findById(Integer id) {
+		AccountType accT = null;
+		try(Connection conn = ConnectionFactory.getInstance().getConnection()){
+			String sql = "SELECT * FROM ACC_TYPE_TB WHERE TYPE = ?";
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				accT = new AccountType();
+				accT.setTypeID(rs.getInt(1));
+				accT.setType(rs.getString(2));
+				
+			}catch(SQLException e) {
+				e.printStackTraces();
+			}
+					)
+			
+			
+		}
+		
+		
+		
+		return null;
+	}
+
+	@Override
+	public AccountType save(AccountType obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AccountType update(AccountType obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}

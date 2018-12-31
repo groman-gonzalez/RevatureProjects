@@ -1,0 +1,89 @@
+
+	<div>
+		<h3>All Reimbursement</h3>
+<button class="btn btn-submit" id="allbtn">Get Reimbursements</button>
+
+		<table class="table">
+			<thead>
+				<tr>
+
+					<th scope="col">Amount</th>
+					<th scope="col">Submitted</th>
+					<th scope="col">Resolved</th>
+					<th scope="col">Description</th>
+					<th scope="col">Author</th>
+					<th scope="col">Resolver</th>
+					<th scope="col">Status</th>
+					<th scope="col">Type</th>
+					<th scope="col">Approve/Deny</th>
+				</tr>
+			</thead>
+			<tbody id=managerReimbursementList>
+
+			</tbody>
+		</table>
+
+	</div>
+	<script src="reimbursement.js" type="text/javascript"></script>
+<script>
+$(() =>{
+	
+	loadManagerView();
+	
+})
+
+function loadManagerView() {
+	console.log("before xhr");
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState == 4 && xhr.status == 200) {
+			console.log(xhr.status)
+			console.log("inside manager view js")
+			$('#view').html(xhr.responseText);
+			$('#allbtn').on('click',getALL);
+		}
+	}
+	 xhr.open("GET", "manager.view", true);
+	//xhr.open("GET", "employee.view", true);
+	xhr.send();
+}
+function getReimbursements(){
+	console.log("inside getReimb");
+	var xhr = new XMLHttpRequest();
+	xhr.onreadystatechange = function(){
+		if(xhr.readyState == 4 && xhr.status == 200){
+			console.log(xhr.responseText);
+			let reimbursements = JSON.parse(xhr.responseText);
+			for(let r of reimbursements){
+				managerReimbursementList(r);
+			}
+		}
+	}
+	xhr.open("GET", "manager");
+	//xhr.open("GET", "reimbursement");
+	xhr.send();
+}
+
+function appendToReimbursementsList(r){
+	var submitted = new Date(r.submitted);
+	var resolver = new Date(r.resolver);
+	
+	var table = $(`<tr>
+									
+				<td>${r.amount}</td>
+				<td>${submitted}</td>
+				<td>${r.resolved}</td>
+				<td>${r.description}</td>
+				<td>${r.author}</td>
+				<td>${resolver}</td>
+				<td id = "statusId${r.id}">${r.statusId}</td>
+				<td>${r.typeId}</td>
+				<td>
+				<button class="btn btn-primary" onclick="updateStatus(${r.id},0)">Denied</button>
+				<button class="btn btn-primary" onclick="updateStatus(${r.id},2)">Aproved</button>
+				</td>
+				</tr>
+				`)
+	$('#managerReimbursementList').append(table);
+
+</script>

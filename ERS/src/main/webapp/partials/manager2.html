@@ -1,0 +1,252 @@
+<div>
+	<h2>Reimbursements</h2>
+	<table style="width: 100%">
+		<thead>
+			<tr>
+
+				<th scope="col">Amount</th>
+				<th scope="col">Submitted</th>
+
+				<th scope="col">Description</th>
+				<th scope="col">Author</th>
+
+				<th scope="col">Status</th>
+				<th scope="col">Type</th>
+
+				<th scope="col">Resolver</th>
+				<th scope="col">Resolved</th>
+				<th scope="col">Approve/Deny</th>
+
+			</tr>
+		</thead>
+		<tbody id='reimInfo'>
+
+		</tbody>
+	</table>
+	<div>
+		<h3 class="text-center">Accepted Reimbursements</h3>
+		<table id="acceptedList" class="table">
+			<thead>
+				<tr>
+					<th scope="col">Amount</th>
+					<th scope="col">Submitted</th>
+
+					<th scope="col">Description</th>
+					<th scope="col">Author</th>
+
+					<th scope="col">Status</th>
+					<th scope="col">Type</th>
+
+				</tr>
+			</thead>
+			<tbody id='Accepted'>
+			</tbody>
+		</table>
+		<br> <br> <br>
+
+	</div>
+
+
+	<div>
+		<h3 class="text-center">Declined Reimbursements</h3>
+		<table id="declinedList" class="table">
+			<thead>
+				<tr>
+					<th scope="col">Amount</th>
+					<th scope="col">Submitted</th>
+
+					<th scope="col">Description</th>
+					<th scope="col">Author</th>
+
+					<th scope="col">Status</th>
+					<th scope="col">Type</th>
+
+				</tr>
+			</thead>
+			<tbody id='Accepted'>
+			</tbody>
+		</table>
+		<br> <br> <br>
+
+	</div>
+
+	<script>
+	$(() =>{
+		
+		loadReimbursements();
+		
+	})
+	function loadReimbursements() {		
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function () {
+			if(xhr.readyState == 4 && xhr.status == 200) {
+				let reimbursements = JSON.parse(xhr.responseText);
+				for(let reims of reimbursements) {
+					reimburseLists(reims);
+				}
+			}
+		}
+		xhr.open("GET", "manager", true);
+		xhr.send();
+	}
+	
+	function refreshStatus() {
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function () {
+			if(xhr.readyState == 4 && xhr.status == 200) {
+				let reimbursements = JSON.parse(xhr.responseText);
+				console.log('1', xhr.responseText);
+				for(let reims of reimbursements) {
+ 					console.log(reims);
+					reimburseLists(reims);
+				}
+				$("#reimInfo tr").remove(); 
+				loadReimbursements();
+				
+			}
+			
+		}
+		
+		xhr.open("GET", "manager", true);
+		xhr.send();
+		
+	}
+	function reimburseLists(reims){
+		let statusId = "";
+		let type = "";
+		switch(reims.status_id) {
+		    case 0:
+		    	status = "Denied";
+		        break;
+		    case 1:
+		        status = "Pending";
+		        break;
+		    case 2:
+		    	status = "Approved";
+		        break;
+		    default:
+		    	break;
+		}
+		 switch(reims.type_id) {
+		    case 1:
+		        type = "Lodging";
+		        break;
+		    case 2:
+		        type = "Travel";
+		        break;
+		    case 3:
+		        type = "Food";
+		        break;		    
+		    case 4:
+		        type = "Other";
+		        break;
+		    default:
+		    	break;
+		}
+			var submitted = new Date(reims.submitted);
+			//sub = submitted.getDate() + submitted.getDay()
+			var resolver = new Date(reims.resolver);
+		
+		var info = $(`<tr>
+				<td>${reims.amount}</td>
+				<td>${submitted}</td>
+				<td>${reims.description}</td>
+				<td>${reims.author}</td>
+				<td id = "statusId${reims.id}">${reims.statusId}</td>
+				<td>${reims.typeId}</td>
+				
+				<td>${reims.resolved}</td>
+				<td>${resolver}</td>
+				
+				
+				<td>
+				<button class="btn btn-primary" onclick="updateStatus(${reims.id},0)">Denied</button>
+				<button class="btn btn-primary" onclick="updateStatus(${reims.id},2)">Aproved</button>
+				</td>
+				</tr>
+				`)
+		$('#reimInfo').append(info);
+		
+	}
+	
+	function updateStatus(id, statusId) {
+			
+		var stat = {
+				
+				id,	statusId
+				
+		}
+		
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function () {
+			
+			if(xhr.readyState == 4 && xhr.status == 200) {
+				
+				$(`statusId${id}`).html(statusId);
+				refreshStatus();
+				
+			}
+			
+		}
+		
+		xhr.open("POST", "reimbursement", true);
+		//xhr.open("PUT", "login", true);
+		xhr.setRequestHeader("Content-type", "application/json");
+		var toSend = JSON.stringify(stat);
+		console.log(toSend);
+		xhr.send(toSend);
+		
+	}
+	/*
+	function showDenied(){
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function () {
+			if(xhr.readyState == 4 && xhr.status == 200) {		
+				if(id == 0){
+					$(`statusId${id}`).html(statusId);
+					denied();
+				}else if(id == 2){
+					$(`statusId${id}`).html(statusId);
+					accepted;
+				}
+				
+			}
+			xhr.open("POST", "reimbursement", true);
+			//xhr.open("PUT", "login", true);
+			xhr.setRequestHeader("Content-type", "application/json");
+			var toSend = JSON.stringify(stat);
+			console.log(toSend);
+			xhr.send(toSend);
+			
+		}
+	}
+		function denied(){	
+			var info = $(`<tr>
+					<td>${reims.amount}</td>
+					<td>${submitted}</td>
+					<td>${reims.description}</td>
+					<td>${reims.author}</td>
+				
+					<td>${reims.typeId}</td>
+					
+					<td>${reims.resolved}</td>
+					<td>${resolver}</td>
+					`)
+		}
+		function accepted(){
+			var info = $(`<tr>
+					<td>${reims.amount}</td>
+					<td>${submitted}</td>
+					<td>${reims.description}</td>
+					<td>${reims.author}</td>
+				
+					<td>${reims.typeId}</td>
+					
+					<td>${reims.resolved}</td>
+					<td>${resolver}</td>
+					`)
+		}
+		*/
+</script>
+
+</div>

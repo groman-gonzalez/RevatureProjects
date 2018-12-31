@@ -1,0 +1,152 @@
+package com.revature.main;
+
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.InputMismatchException;
+import java.util.List;
+import java.util.Scanner;
+
+import com.revature.dao.TypeDao;
+import com.revature.dao.userDao;
+import com.revature.pojos.User;
+import com.revature.service.AccService;
+import com.revature.util.ConnectionFactory;
+
+public class BankApp {
+	static Scanner read = new Scanner(System.in);
+	static String firstName;
+	static String lastName;
+	static String usrName;
+	static String pwd;
+
+	static AccService accSer = new AccService();
+	static userDao usrDao = new userDao();
+	static TypeDao typeDao = new TypeDao();
+	static AccService aservice = new AccService();
+
+	public static void main(String[] args) {
+		run();
+	}
+
+	static void run() {
+		System.out.println("========================================================================="
+				+ "\n============|| Hello! Welcome to the New Lehman Brothers! ||============="
+				+ "\n========================================================================="
+				+ "\n            ||        What would you like to do?          ||"
+				+ "\n            || 1. Existing Customer                       ||"
+				+ "\n            || 2. New Customer                            ||"
+				+ "\n=========================================================================");
+		Scanner scan = new Scanner(System.in);
+		int option = 0;
+		try {
+			option = scan.nextInt();
+			switch (option) {
+			case 1:
+				logIn();
+				break;
+			case 2:
+				makeNewUser();
+				break;
+			default:
+				System.out.println("Please enter a number from the menu");
+				run();
+				break;
+			}
+			read.close();
+		} catch (InputMismatchException e) {
+			System.out.println("Sorry please enter a number");
+			run();
+		}
+	}
+
+	static void logIn() {
+		System.out.println("Enter Username: ");
+		usrName = read.nextLine();
+		System.out.println("Enter Password: ");
+		pwd = read.nextLine();
+		boolean uniqueUser = false;
+		
+		List<User> allUsers = aservice.findAllUsers();
+		for(User usr: allUsers) {
+			if(usr.getUsrName().equals(usrName) && usr.getPws().equals(pwd)) {
+				uniqueUser = true;
+				accountMenu();
+				break;
+			}
+		}
+		if(uniqueUser == false) {
+			System.out.println("Incorrect Username/Password");
+			logIn();
+		}
+	}
+
+	private static void makeNewUser() {
+		String usrName = "a";
+		String pwd = "a";
+		
+		
+		System.out.println("Please enter your First name: ");
+		firstName = read.nextLine();
+		System.out.println("Enter your Last name: ");
+		lastName = read.nextLine();
+
+		do {
+			if (usrName.equals("")) {
+				System.out.println("Create Username");
+			}
+			System.out.println("Make a username: ");
+			usrName = read.nextLine();
+
+		} while (usrName.equals(""));
+		do {
+			if (pwd.equals("")) {
+				System.out.println("Create Password");
+			}
+			System.out.println("Enter a password: ");
+			pwd = read.nextLine();
+		} while (pwd.equals(""));
+		AccService.newUserAccount(firstName, lastName, usrName, pwd);
+		accountMenu();
+		
+
+	}
+
+	static void accountMenu() {
+		System.out.println("========================================================================="
+				+ "\n	                 ACCOUNT MENU"
+				+ "\n========================================================================="
+				+ "\n			 1. Access Balance" + "\n 			 2. Deposit" + "\n			 3. Withdraw"
+				+ "\n			 4. Open new account" + "\n			 5. Exit");
+		Scanner read = new Scanner(System.in);
+		int option = 0;
+		try {
+			option = read.nextInt();
+			switch (option) {
+			case 1:
+				// print balance
+				break;
+			case 2:
+				// accDao();
+				break;
+			case 3:
+				// do withdraw
+				break;
+			case 4:
+
+				// create a new type of account
+				break;
+			case 5:
+				System.exit(0);
+				break;
+			default:
+				System.out.println("Please enter a number from the menu");
+				break;
+			}
+			read.close();
+		} catch (InputMismatchException e) {
+			e.printStackTrace();// make into logger
+
+		}
+	}
+}

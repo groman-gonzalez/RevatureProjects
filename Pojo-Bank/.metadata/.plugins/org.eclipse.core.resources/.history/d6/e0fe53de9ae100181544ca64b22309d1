@@ -1,0 +1,32 @@
+package com.revature.dao;
+
+import java.util.List;
+
+public class userDao implements DAO<User, Integer> {
+
+	@Override
+	public List<User> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User findById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User save(User obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User update(User obj) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+
+}

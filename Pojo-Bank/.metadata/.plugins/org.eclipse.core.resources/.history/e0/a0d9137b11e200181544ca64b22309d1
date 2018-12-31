@@ -1,0 +1,24 @@
+package com.revature.service;
+
+import  java.util.List;
+
+import com.revature.dao.TypeDao;
+import com.revature.dao.AccDao;
+import com.revature.dao.DAO;
+import com.revature.dao.userDao;
+import com.revature.pojos.Account;
+import com.revature.pojos.User;
+
+public class AccService {
+	//public static void createAccount() {
+		//add the stAccountm the dao
+	static DAO<User, Integer> userDao  = new userDao();
+	
+	public List<User> Update(){
+		List<User> acc = userDao.update();
+		if (acc.size() == 0) return null;
+		return acc;
+	}
+
+	p
+}

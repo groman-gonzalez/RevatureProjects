@@ -1,0 +1,6 @@
+package com.revature.BankingApplication;
+
+public class DAO {
+	List<T> findAll();
+	T find
+}
